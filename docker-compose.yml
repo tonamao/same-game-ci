@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+
+    nginx:
+        image: nginx:${NGINX_VERSION}-alpine
+        ports:
+            - 8080:80
+        volumes:
+            - ${APP_DIR}:/var/www/html
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - php
+            - db
+            - redis
+    php:
+        build:
+            context: ./docker/php
+            args:
+                - PHP_FPM_VERSION=${PHP_VERSION}
+        ports:
+            - 9000:9000
+        volumes:
+            - ${APP_DIR}:/var/www/html
+        environment:
+            MYSQL_USER:     ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MEMCACHED_PORT: ${MEMCACHED_PORT}
+            DATABASE_HOST:  ${DATABASE_HOST}
+            REDIS_PORT:     ${REDIS_PORT}
+    db:
+        build:
+            context: ./docker/mysql
+            args:
+                - MYSQL_VERSION=${MYSQL_VERSION}
+        ports:
+            - 13306:3306
+        volumes:
+            - db_data:/var/lib/mysql
+            - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    redis:
+        image: redis:${REDIS_VERSION}-alpine
+        volumes:
+            - redis_data:/data
+        ports:
+            - "${REDIS_PORT}:6379"
+        command: redis-server --appendonly yes
+        restart: always
+volumes:
+    db_data:
+    redis_data:
