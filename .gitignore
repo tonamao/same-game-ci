@@ -1,11 +1,14 @@
+.env
 
 */config/development
-*/logs/log-*.php
+*/logs/log-*.log
 !*/logs/index.html
 */cache/*
 !system/cache/*
 !*/cache/index.html
 !*/cache/.htaccess
+
+writable/debugbar/*.json
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
