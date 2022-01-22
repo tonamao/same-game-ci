@@ -131,3 +131,30 @@
 #--------------------------------------------------------------------
 
 # curlrequest.shareOptions = true
+
+#--------------------------------------------------------------------
+# docker container enviroment
+#--------------------------------------------------------------------
+APP_DIR=./
+
+# nginx Setting
+NGINX_VERSION=1.17
+
+# PHP Setting
+PHP_VERSION=7.3
+
+# Mysql Setting
+MYSQL_VERSION=5.7
+MYSQL_ROOT_PASSWORD=root
+MYSQL_DATABASE=samegame
+MYSQL_USER=user
+MYSQL_PASSWORD=pass
+
+# MemCached Setting
+MEMCACHED_VERSION=1.5.20
+MEMCACHED_PORT=11211
+
+# Redis Setting
+REDIS_VERSION=5.0
+REDIS_PORT=6379
+
