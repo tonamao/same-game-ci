@@ -105,6 +105,8 @@ RUN apk update                       && \
 # set recommended PHP.ini settings
 COPY conf.d/* /usr/local/etc/php/conf.d/
 
+RUN chmod a+rwx -R /var/www/html/writable
+
 # Migration app data
 COPY ./docker-entrypoint.sh /
 RUN chmod 755 /docker-entrypoint.sh
