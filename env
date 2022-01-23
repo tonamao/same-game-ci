@@ -37,11 +37,11 @@
 # DATABASE
 #--------------------------------------------------------------------
 
-# database.default.hostname = localhost
-# database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
-# database.default.DBDriver = MySQLi
+database.default.hostname = db
+database.default.database = samegame
+database.default.username = root
+database.default.password = root
+database.default.DBDriver = MySQLi
 # database.default.DBPrefix =
 
 # database.tests.hostname = localhost
@@ -142,6 +142,8 @@ NGINX_VERSION=1.17
 
 # PHP Setting
 PHP_VERSION=7.3
+MY_SERVER_HOST=localhost
+MY_SERVER_PORT=8080
 
 # Mysql Setting
 MYSQL_VERSION=5.7
