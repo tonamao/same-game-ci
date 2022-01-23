@@ -461,4 +461,17 @@ class App extends BaseConfig
      * @var bool
      */
     public $CSPEnabled = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+        // set server host
+        $s = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 's' : '';
+        if (!empty(getenv('MY_SERVER_HOST'))
+            && !empty(getenv('MY_SERVER_PORT'))) {
+            $host = getenv('MY_SERVER_HOST');
+            $port = getenv('MY_SERVER_PORT');
+            $this->baseURL = "http{$s}://{$host}:{$port}/";
+        }
+    }
 }
