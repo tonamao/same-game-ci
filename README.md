@@ -1,6 +1,9 @@
 ## SameGame
 SameGame is web apllication game.
 
+<image src="https://user-images.githubusercontent.com/46984598/150680690-38a20b35-2c70-40c6-aa76-023e54f84c20.png" width=380>
+
+
 ## How to start
 ### Premise
 Install docker, docker-compose.
