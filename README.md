@@ -4,7 +4,7 @@ SameGame is web apllication game.
 ## How to start
 1. git clone this repository.
 
-2. cp env .env and uncomment `database.default.xxxxx`.
+2. cp env .env
 
 3. start with `docker-compose up -d`.
 
