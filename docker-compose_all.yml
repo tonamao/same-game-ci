@@ -12,8 +12,11 @@ services:
             - ${SUPPORT_DIR}:/var/www/support-tool
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
             - ./docker/nginx/support-tool.conf:/etc/nginx/conf.d/support-tool.conf
+            - php-fpm-socket:/var/run/php-fpm
+            - php-fpm-socket_support:/var/run/php-fpm_support
         depends_on:
             - samegame
+            - support
             - db
             - redis
     samegame:
@@ -25,6 +28,7 @@ services:
             - 9000:9000
         volumes:
             - ${APP_DIR}:/var/www/html
+            - php-fpm-socket:/var/run/php-fpm
         environment:
             MYSQL_USER:     ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -43,6 +47,7 @@ services:
             - 29000:29000
         volumes:
             - ${SUPPORT_DIR}:/var/www/support-tool
+            - php-fpm-socket_support:/var/run/php-fpm_support
         environment:
             MYSQL_USER:     ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -76,3 +81,5 @@ services:
 volumes:
     db_data:
     redis_data:
+    php-fpm-socket:
+    php-fpm-socket_support:

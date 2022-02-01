@@ -102,6 +102,9 @@ RUN apk update                       && \
     \
     rm -rf /tmp/* /var/cache/apk/*
 
+# unix socket connection settings
+COPY ./php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
+
 # set recommended PHP.ini settings
 COPY conf.d/* /usr/local/etc/php/conf.d/
 
