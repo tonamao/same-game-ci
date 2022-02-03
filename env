@@ -135,15 +135,21 @@ database.default.DBDriver = MySQLi
 #--------------------------------------------------------------------
 # docker container enviroment
 #--------------------------------------------------------------------
+# applications path
 APP_DIR=./
+SUPPORT_DIR=./../support-tool
 
 # nginx Setting
 NGINX_VERSION=1.17
 
-# PHP Setting
-PHP_VERSION=7.3
-MY_SERVER_HOST=localhost
-MY_SERVER_PORT=8080
+# same-game PHP setting
+SAMEGAME_PHP_VERSION=7.3
+SAMEGAME_MY_SERVER_HOST=localhost
+SAMEGAME_MY_SERVER_PORT=8080
+
+# support-tool PHP setting
+SUPPORT_PHP_VERSION=7.3
+SUPPORT_SERVER_PORT=28080
 
 # Mysql Setting
 MYSQL_VERSION=5.7
