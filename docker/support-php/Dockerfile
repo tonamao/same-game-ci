@@ -113,6 +113,8 @@ RUN apk update                       && \
 # unix socket connection settings
 COPY ./php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
 
+WORKDIR /var/www/support-tool
+
 # set recommended PHP.ini settings
 COPY conf.d/* /usr/local/etc/php/conf.d/
 CMD  ["php-fpm"]
