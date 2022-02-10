@@ -40,10 +40,19 @@ RUN apk update                       && \
         gmp-dev                         \
         libmemcached-dev                \
         imagemagick-dev                 \
+        libpng                          \
+        libjpeg                         \
+        libgcc                          \
+        libgomp                         \
         libzip-dev                      \
         libssh2                         \
         libssh2-dev                     \
         libxslt-dev                  && \
+    \
+    apk add --no-cache --virtual build-dependencies \
+    jpeg-dev                                        \
+    libpng-dev                                      \
+    imagemagick-dev                              && \
     \
     tar xfz /tmp/5.1.1.tar.gz   && \
     \
@@ -90,7 +99,10 @@ RUN apk update                       && \
         apcu imagick                                            &&  \
     \
     docker-php-ext-enable                                           \
-        apcu imagick                                            &&  \
+        apcu                                                    &&  \
+    \
+    docker-php-ext-enable                                           \
+        --ini-name 20-imagick.ini imagick                       &&  \
     \
     apk del .build-dependencies                                 &&  \
     \
@@ -100,6 +112,8 @@ RUN apk update                       && \
 
 # unix socket connection settings
 COPY ./php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
+
+WORKDIR /var/www/support-tool
 
 # set recommended PHP.ini settings
 COPY conf.d/* /usr/local/etc/php/conf.d/
