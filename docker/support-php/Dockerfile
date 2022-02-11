@@ -26,7 +26,6 @@ RUN apk update                       && \
             pcre-dev                 && \
     \
     apk add --no-cache                  \
-        git                             \
         mysql-client                    \
         tini                            \
         libintl                         \
@@ -41,13 +40,23 @@ RUN apk update                       && \
         gmp-dev                         \
         libmemcached-dev                \
         imagemagick-dev                 \
+        libpng                          \
+        libjpeg                         \
+        libgcc                          \
         libgomp                         \
         libzip-dev                      \
         libssh2                         \
         libssh2-dev                     \
         libxslt-dev                  && \
     \
-    tar xfz /tmp/5.1.1.tar.gz && mv phpredis-5.1.1 /usr/src/php/ext/redis    && \
+    apk add --no-cache --virtual build-dependencies \
+    jpeg-dev                                        \
+    libpng-dev                                      \
+    imagemagick-dev                              && \
+    \
+    tar xfz /tmp/5.1.1.tar.gz   && \
+    \
+    mv phpredis-5.1.1 /usr/src/php/ext/redis    && \
     \
     git clone https://github.com/php-memcached-dev/php-memcached.git /usr/src/php/ext/memcached/    && \
     \
@@ -57,17 +66,13 @@ RUN apk update                       && \
         --with-freetype-dir=/usr/include/       \
         --with-jpeg-dir=/usr/include/       &&  \
     \
-    docker-php-ext-configure mysqli --with-mysqli=mysqlnd &&\
     docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" \
         intl                                                \
-        json                                                \
-        mbstring                                            \
-        mysqli                                              \
-        xml                                                 \
         bcmath                                              \
         xsl                                                 \
         zip                                                 \
         soap                                                \
+        mysqli                                              \
         pdo                                                 \
         pdo_mysql                                           \
         pdo_pgsql                                           \
@@ -94,7 +99,10 @@ RUN apk update                       && \
         apcu imagick                                            &&  \
     \
     docker-php-ext-enable                                           \
-        apcu imagick                                            &&  \
+        apcu                                                    &&  \
+    \
+    docker-php-ext-enable                                           \
+        --ini-name 20-imagick.ini imagick                       &&  \
     \
     apk del .build-dependencies                                 &&  \
     \
@@ -105,11 +113,9 @@ RUN apk update                       && \
 # unix socket connection settings
 COPY ./php-fpm.d/zzz-www.conf /usr/local/etc/php-fpm.d/zzz-www.conf
 
+WORKDIR /var/www/support-tool
+
 # set recommended PHP.ini settings
 COPY conf.d/* /usr/local/etc/php/conf.d/
-
-# Migration app data
-COPY ./docker-entrypoint.sh /
-RUN chmod 755 /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD  ["php-fpm"]
 
